@@ -6,13 +6,25 @@ services:
       dockerfile: app_dockerfile
     container_name: demo-symfony-app
     volumes:
-      - ./app/:/var/www/html
+      - ./:/var/www/html
     command: bash -c "composer install & php-fpm"
   web:
     image: nginx:alpine
     container_name: demo-symfony-web
     ports:
-      - 80:80
+      - "80:80"
     volumes:
       - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./app/:/var/www/html
+      - ./:/var/www/html
+  db:
+    image: postgres:16-alpine
+    container_name: demo-symfony-db
+    environment:
+      POSTGRES_DB: example
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: example
+  adminer:
+    image: dockette/adminer:postgres
+    container_name: demo-symfony-adminer
+    ports:
+      - "8080:80"
