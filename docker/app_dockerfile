@@ -1,17 +1,17 @@
 FROM php:8.1-fpm
 RUN apt update && apt install -y \
-    # git \
+    git \
     zip \
     libzip-dev \
-    # pkg-config \
+    pkg-config \
     && docker-php-ext-install pdo \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && docker-php-ext-configure zip \
     && docker-php-ext-install zip \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    # && curl -sS https://get.symfony.com/cli/installer | bash \
-    # && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony \
+    && curl -sS https://get.symfony.com/cli/installer | bash \
+    && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony \
     && docker-php-source delete \
     && apt autoremove --purge -y && apt autoclean -y && apt clean -y \
     && rm -rf /var/lib/apt/lists/* \
