@@ -1,0 +1,18 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./docker
+      dockerfile: app_dockerfile
+    container_name: demo-symfony-app
+    volumes:
+      - ./app/:/var/www/html
+    command: bash -c "composer install & php-fpm"
+  web:
+    image: nginx:alpine
+    container_name: demo-symfony-web
+    ports:
+      - 80:80
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./app/:/var/www/html
