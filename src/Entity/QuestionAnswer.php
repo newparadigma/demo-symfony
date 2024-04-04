@@ -12,7 +12,7 @@ class QuestionAnswer
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    
+
     #[ORM\Column]
     private ?bool $isCorrect = null;
 

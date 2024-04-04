@@ -21,8 +21,8 @@ class Answer
     #[ORM\OneToMany(targetEntity: Result::class, mappedBy: 'answer')]
     private Collection $results;
 
-    #[ORM\ManyToMany(targetEntity: Question::class, mappedBy: 'answers')]
-    private Collection $questions;
+    // #[ORM\ManyToMany(targetEntity: Question::class, mappedBy: 'answers')]
+    // private Collection $questions;
 
     #[ORM\OneToMany(targetEntity: QuestionAnswer::class, mappedBy: 'answer')]
     private Collection $questionAnswers;
@@ -30,7 +30,7 @@ class Answer
     public function __construct()
     {
         $this->results = new ArrayCollection();
-        $this->questions = new ArrayCollection();
+        // $this->questions = new ArrayCollection();
         $this->questionAnswers = new ArrayCollection();
     }
 
@@ -81,32 +81,32 @@ class Answer
         return $this;
     }
 
-    /**
-     * @return Collection<int, Question>
-     */
-    public function getQuestions(): Collection
-    {
-        return $this->questions;
-    }
+    // /**
+    //  * @return Collection<int, Question>
+    //  */
+    // public function getQuestions(): Collection
+    // {
+    //     return $this->questions;
+    // }
 
-    public function addQuestion(Question $question): static
-    {
-        if (!$this->questions->contains($question)) {
-            $this->questions->add($question);
-            $question->addAnswer($this);
-        }
+    // public function addQuestion(Question $question): static
+    // {
+    //     if (!$this->questions->contains($question)) {
+    //         $this->questions->add($question);
+    //         $question->addAnswer($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeQuestion(Question $question): static
-    {
-        if ($this->questions->removeElement($question)) {
-            $question->removeAnswer($this);
-        }
+    // public function removeQuestion(Question $question): static
+    // {
+    //     if ($this->questions->removeElement($question)) {
+    //         $question->removeAnswer($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * @return Collection<int, QuestionAnswer>

@@ -17,7 +17,6 @@ class MathTestService
 
     public function getQuiz()
     {
-        $quiz = $this->quizService->getWithRelationsByID();
-        dd($quiz);
+        return $this->quizService->getWithRelationsByID();
     }
 }

@@ -42,11 +42,11 @@ class AppFixtures extends Fixture
                 $answer->setContent($content);
                 $manager->persist($answer);
 
-                // $questionAnswer = new QuestionAnswer();
-                // $questionAnswer->setQuestion($question);
-                // $questionAnswer->setAnswer($answer);
-                // $questionAnswer->setIsCorrect($isCorrect);
-                // $manager->persist($questionAnswer);
+                $questionAnswer = new QuestionAnswer();
+                $questionAnswer->setQuestion($question);
+                $questionAnswer->setAnswer($answer);
+                $questionAnswer->setIsCorrect($isCorrect);
+                $manager->persist($questionAnswer);
             }
         }
 

@@ -20,7 +20,6 @@ final class Version20240404154558 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql('ALTER TABLE question_answer ADD COLUMN is_correct BOOLEAN NOT NULL');
-
     }
 
     public function down(Schema $schema): void

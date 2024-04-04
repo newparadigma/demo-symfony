@@ -34,7 +34,7 @@ class Question
     {
         $this->results = new ArrayCollection();
         $this->quizzes = new ArrayCollection();
-        $this->answers = new ArrayCollection();
+        // $this->answers = new ArrayCollection();
         $this->questionAnswers = new ArrayCollection();
     }
 

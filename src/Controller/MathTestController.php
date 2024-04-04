@@ -22,10 +22,11 @@ class MathTestController extends AbstractController
     public function index(): Response
     {
         $quiz = $this->mathTestService->getQuiz();
-        dd($quiz);
+
+        // dd($quiz->getQuestions());
 
         return $this->render('math_test/index.html.twig', [
-            'controller_name' => 'MathTestController',
+            'quiz' => $quiz,
         ]);
     }
 }
