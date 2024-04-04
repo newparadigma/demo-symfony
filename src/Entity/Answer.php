@@ -18,16 +18,20 @@ class Answer
     #[ORM\Column(length: 255)]
     private ?string $content = null;
 
-    #[ORM\OneToMany(targetEntity: QuestionAnswer::class, mappedBy: 'answer', orphanRemoval: true)]
-    private Collection $questionAnswers;
-
     #[ORM\OneToMany(targetEntity: Result::class, mappedBy: 'answer')]
     private Collection $results;
 
+    #[ORM\ManyToMany(targetEntity: Question::class, mappedBy: 'answers')]
+    private Collection $questions;
+
+    #[ORM\OneToMany(targetEntity: QuestionAnswer::class, mappedBy: 'answer')]
+    private Collection $questionAnswers;
+
     public function __construct()
     {
-        $this->questionAnswers = new ArrayCollection();
         $this->results = new ArrayCollection();
+        $this->questions = new ArrayCollection();
+        $this->questionAnswers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -43,36 +47,6 @@ class Answer
     public function setContent(string $content): static
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, QuestionAnswer>
-     */
-    public function getQuestionAnswers(): Collection
-    {
-        return $this->questionAnswers;
-    }
-
-    public function addQuestionAnswer(QuestionAnswer $questionAnswer): static
-    {
-        if (!$this->questionAnswers->contains($questionAnswer)) {
-            $this->questionAnswers->add($questionAnswer);
-            $questionAnswer->setAnswer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestionAnswer(QuestionAnswer $questionAnswer): static
-    {
-        if ($this->questionAnswers->removeElement($questionAnswer)) {
-            // set the owning side to null (unless already changed)
-            if ($questionAnswer->getAnswer() === $this) {
-                $questionAnswer->setAnswer(null);
-            }
-        }
 
         return $this;
     }
@@ -101,6 +75,63 @@ class Answer
             // set the owning side to null (unless already changed)
             if ($result->getAnswer() === $this) {
                 $result->setAnswer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): static
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions->add($question);
+            $question->addAnswer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): static
+    {
+        if ($this->questions->removeElement($question)) {
+            $question->removeAnswer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QuestionAnswer>
+     */
+    public function getQuestionAnswers(): Collection
+    {
+        return $this->questionAnswers;
+    }
+
+    public function addQuestionAnswer(QuestionAnswer $questionAnswer): static
+    {
+        if (!$this->questionAnswers->contains($questionAnswer)) {
+            $this->questionAnswers->add($questionAnswer);
+            $questionAnswer->setAnswer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestionAnswer(QuestionAnswer $questionAnswer): static
+    {
+        if ($this->questionAnswers->removeElement($questionAnswer)) {
+            // set the owning side to null (unless already changed)
+            if ($questionAnswer->getAnswer() === $this) {
+                $questionAnswer->setAnswer(null);
             }
         }
 

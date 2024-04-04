@@ -21,16 +21,16 @@ class Quiz
     #[ORM\Column]
     private ?bool $randomizeQuestions = null;
 
-    #[ORM\OneToMany(targetEntity: QuizQuestion::class, mappedBy: 'quiz')]
-    private Collection $quizQuestions;
-
     #[ORM\OneToMany(targetEntity: Result::class, mappedBy: 'quiz')]
     private Collection $results;
 
+    #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'quizzes')]
+    private Collection $questions;
+
     public function __construct()
     {
-        $this->quizQuestions = new ArrayCollection();
         $this->results = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,36 +63,6 @@ class Quiz
     }
 
     /**
-     * @return Collection<int, QuizQuestion>
-     */
-    public function getQuizQuestions(): Collection
-    {
-        return $this->quizQuestions;
-    }
-
-    public function addQuizQuestion(QuizQuestion $quizQuestion): static
-    {
-        if (!$this->quizQuestions->contains($quizQuestion)) {
-            $this->quizQuestions->add($quizQuestion);
-            $quizQuestion->setQuiz($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuizQuestion(QuizQuestion $quizQuestion): static
-    {
-        if ($this->quizQuestions->removeElement($quizQuestion)) {
-            // set the owning side to null (unless already changed)
-            if ($quizQuestion->getQuiz() === $this) {
-                $quizQuestion->setQuiz(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Result>
      */
     public function getResults(): Collection
@@ -118,6 +88,30 @@ class Quiz
                 $result->setQuiz(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): static
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions->add($question);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): static
+    {
+        $this->questions->removeElement($question);
 
         return $this;
     }

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240404111946 extends AbstractMigration
+final class Version20240404153931 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,19 +22,17 @@ final class Version20240404111946 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SEQUENCE answer_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE question_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE question_answer_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE quiz_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE quiz_question_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE result_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE answer (id INT NOT NULL, content VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE question (id INT NOT NULL, content VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE question_answer (id INT NOT NULL, answer_id INT NOT NULL, question_id INT NOT NULL, is_correct_answer BOOLEAN NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_DD80652DAA334807 ON question_answer (answer_id)');
+        $this->addSql('CREATE TABLE question_answer (question_id INT NOT NULL, answer_id INT NOT NULL, PRIMARY KEY(question_id, answer_id))');
         $this->addSql('CREATE INDEX IDX_DD80652D1E27F6BF ON question_answer (question_id)');
+        $this->addSql('CREATE INDEX IDX_DD80652DAA334807 ON question_answer (answer_id)');
         $this->addSql('CREATE TABLE quiz (id INT NOT NULL, name VARCHAR(255) NOT NULL, randomize_questions BOOLEAN NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE quiz_question (id INT NOT NULL, question_id INT DEFAULT NULL, quiz_id INT DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_6033B00B1E27F6BF ON quiz_question (question_id)');
+        $this->addSql('CREATE TABLE quiz_question (quiz_id INT NOT NULL, question_id INT NOT NULL, PRIMARY KEY(quiz_id, question_id))');
         $this->addSql('CREATE INDEX IDX_6033B00B853CD175 ON quiz_question (quiz_id)');
+        $this->addSql('CREATE INDEX IDX_6033B00B1E27F6BF ON quiz_question (question_id)');
         $this->addSql('CREATE TABLE result (id INT NOT NULL, quiz_id INT DEFAULT NULL, question_id INT DEFAULT NULL, answer_id INT DEFAULT NULL, iteration_number INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_136AC113853CD175 ON result (quiz_id)');
         $this->addSql('CREATE INDEX IDX_136AC1131E27F6BF ON result (question_id)');
@@ -56,10 +54,10 @@ final class Version20240404111946 extends AbstractMigration
         $$ LANGUAGE plpgsql;');
         $this->addSql('DROP TRIGGER IF EXISTS notify_trigger ON messenger_messages;');
         $this->addSql('CREATE TRIGGER notify_trigger AFTER INSERT OR UPDATE ON messenger_messages FOR EACH ROW EXECUTE PROCEDURE notify_messenger_messages();');
-        $this->addSql('ALTER TABLE question_answer ADD CONSTRAINT FK_DD80652DAA334807 FOREIGN KEY (answer_id) REFERENCES answer (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE question_answer ADD CONSTRAINT FK_DD80652D1E27F6BF FOREIGN KEY (question_id) REFERENCES question (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE quiz_question ADD CONSTRAINT FK_6033B00B1E27F6BF FOREIGN KEY (question_id) REFERENCES question (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE quiz_question ADD CONSTRAINT FK_6033B00B853CD175 FOREIGN KEY (quiz_id) REFERENCES quiz (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE question_answer ADD CONSTRAINT FK_DD80652D1E27F6BF FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE question_answer ADD CONSTRAINT FK_DD80652DAA334807 FOREIGN KEY (answer_id) REFERENCES answer (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE quiz_question ADD CONSTRAINT FK_6033B00B853CD175 FOREIGN KEY (quiz_id) REFERENCES quiz (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE quiz_question ADD CONSTRAINT FK_6033B00B1E27F6BF FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE result ADD CONSTRAINT FK_136AC113853CD175 FOREIGN KEY (quiz_id) REFERENCES quiz (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE result ADD CONSTRAINT FK_136AC1131E27F6BF FOREIGN KEY (question_id) REFERENCES question (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE result ADD CONSTRAINT FK_136AC113AA334807 FOREIGN KEY (answer_id) REFERENCES answer (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -71,14 +69,12 @@ final class Version20240404111946 extends AbstractMigration
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('DROP SEQUENCE answer_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE question_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE question_answer_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE quiz_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE quiz_question_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE result_id_seq CASCADE');
-        $this->addSql('ALTER TABLE question_answer DROP CONSTRAINT FK_DD80652DAA334807');
         $this->addSql('ALTER TABLE question_answer DROP CONSTRAINT FK_DD80652D1E27F6BF');
-        $this->addSql('ALTER TABLE quiz_question DROP CONSTRAINT FK_6033B00B1E27F6BF');
+        $this->addSql('ALTER TABLE question_answer DROP CONSTRAINT FK_DD80652DAA334807');
         $this->addSql('ALTER TABLE quiz_question DROP CONSTRAINT FK_6033B00B853CD175');
+        $this->addSql('ALTER TABLE quiz_question DROP CONSTRAINT FK_6033B00B1E27F6BF');
         $this->addSql('ALTER TABLE result DROP CONSTRAINT FK_136AC113853CD175');
         $this->addSql('ALTER TABLE result DROP CONSTRAINT FK_136AC1131E27F6BF');
         $this->addSql('ALTER TABLE result DROP CONSTRAINT FK_136AC113AA334807');

@@ -7,7 +7,6 @@ use Doctrine\Persistence\ObjectManager;
 
 use App\Entity\Quiz;
 use App\Entity\Question;
-use App\Entity\QuizQuestion;
 use App\Entity\Answer;
 use App\Entity\QuestionAnswer;
 
@@ -27,10 +26,7 @@ class AppFixtures extends Fixture
             $question->setContent("$i + $i = ?");
             $manager->persist($question);
 
-            $quizQuestion = new QuizQuestion();
-            $quizQuestion->setQuiz($quiz);
-            $quizQuestion->setQuestion($question);
-            $manager->persist($quizQuestion);
+            $quiz->addQuestion($question);
 
             $sum = $i + $i;
 
@@ -46,11 +42,11 @@ class AppFixtures extends Fixture
                 $answer->setContent($content);
                 $manager->persist($answer);
 
-                $questionAnswer = new QuestionAnswer();
-                $questionAnswer->setQuestion($question);
-                $questionAnswer->setAnswer($answer);
-                $questionAnswer->setIsCorrectAnswer($isCorrect);
-                $manager->persist($questionAnswer);
+                // $questionAnswer = new QuestionAnswer();
+                // $questionAnswer->setQuestion($question);
+                // $questionAnswer->setAnswer($answer);
+                // $questionAnswer->setIsCorrect($isCorrect);
+                // $manager->persist($questionAnswer);
             }
         }
 

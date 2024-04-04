@@ -21,6 +21,17 @@ class QuizRepository extends ServiceEntityRepository
         parent::__construct($registry, Quiz::class);
     }
 
+    public function getWithRelationsByID(int $quizId): ?Quiz
+    {
+        return $this->createQueryBuilder('q')
+            ->leftJoin('q.questions', 'question')
+            ->leftJoin('question.answers', 'answer')
+            ->where('q.id = :quizId')
+            ->setParameter('quizId', $quizId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Quiz[] Returns an array of Quiz objects
     //     */

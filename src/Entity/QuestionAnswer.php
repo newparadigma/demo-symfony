@@ -12,31 +12,29 @@ class QuestionAnswer
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+    
+    #[ORM\Column]
+    private ?bool $isCorrect = null;
 
     #[ORM\ManyToOne(inversedBy: 'questionAnswers')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Answer $answer = null;
-
-    #[ORM\ManyToOne(inversedBy: 'questionAnswers')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
-    #[ORM\Column]
-    private ?bool $isCorrectAnswer = null;
+    #[ORM\ManyToOne(inversedBy: 'questionAnswers')]
+    private ?Answer $answer = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAnswer(): ?Answer
+    public function getIsCorrect(): ?bool
     {
-        return $this->answer;
+        return $this->isCorrect;
     }
 
-    public function setAnswer(?Answer $answer): static
+    public function setIsCorrect(bool $isCorrect): static
     {
-        $this->answer = $answer;
+        $this->isCorrect = $isCorrect;
 
         return $this;
     }
@@ -53,14 +51,14 @@ class QuestionAnswer
         return $this;
     }
 
-    public function getIsCorrectAnswer(): ?bool
+    public function getAnswer(): ?Answer
     {
-        return $this->isCorrectAnswer;
+        return $this->answer;
     }
 
-    public function setIsCorrectAnswer(bool $isCorrectAnswer): static
+    public function setAnswer(?Answer $answer): static
     {
-        $this->isCorrectAnswer = $isCorrectAnswer;
+        $this->answer = $answer;
 
         return $this;
     }
