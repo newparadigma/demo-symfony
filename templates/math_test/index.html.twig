@@ -13,31 +13,35 @@
     <p>{{ quiz.name }}</p>
     <p>Вам предстоит ответить на 10 вопросов. Удачи!</p>
 
-    {# <form method="POST" action="{{ path('submit_form') }}">
+    <form method="post">
         {{ form_start(form) }}
+        {# {% for questionForm in form.questions %}
+            <h3>{{ questionForm.vars.data.content }}</h3>
 
-        {{ form_row(form.name) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.message) }}
+            <div class="answers">
+                {{ form_errors(questionForm.answers) }}
+                {% for answerForm in questionForm.answers %}
+                    <div class="answer">
+                        {{ form_widget(answerForm) }}
+                        {{ form_label(answerForm) }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %} #}
 
+        {% for question in quiz.questions %}
+            <h3>{{ question.content }}</h3>
+            <ul>
+                {% for answer in question.answers %}
+                    <li>
+                        <input type="checkbox" id="answer_{{ question.id }}_{{ answer.id }}" name="answers[{{ question.id }}][{{ answer.id }}]" value="{{ answer.id }}">
+                        <label for="answer_{{ question.id }}_{{ answer.id }}">{{ answer.content }}</label>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
         <button type="submit">Submit</button>
-
         {{ form_end(form) }}
-    </form> #}
-
-    {% for question in quiz.questions %}
-        <h3>{{ question.content }}</h3>
-        <ul>
-            {% for answer in question.answers %}
-                <li>
-                    <input type="checkbox" id="answer_{{ answer.id }}" name="answers[{{ question.id }}]" value="{{ answer.id }}">
-                    <label for="answer_{{ answer.id }}">{{ answer.content }}</label>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endfor %}
-    <button type="submit">Submit</button>
-    {# <form method="POST" action="{{ path('submit_form') }}">
-    </form> #}
+    </form>
 </div>
 {% endblock %}

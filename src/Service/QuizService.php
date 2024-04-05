@@ -18,6 +18,7 @@ class QuizService
 
     public function getWithRelationsByID()
     {
-        return $this->quizRepository->getWithRelationsByID(self::QUIZ_ID);
+        $data = $this->quizRepository->getWithRelationsByID(self::QUIZ_ID);
+        return $data;
     }
 }

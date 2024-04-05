@@ -12,7 +12,7 @@ use App\Entity\QuestionAnswer;
 
 class AppFixtures extends Fixture
 {
-    private const QUIZ_NAME = 'test_quiz';
+    private const QUIZ_NAME = 'Тест на сложение чисел';
 
     public function load(ObjectManager $manager): void
     {
