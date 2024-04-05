@@ -13,16 +13,31 @@
     <p>{{ quiz.name }}</p>
     <p>Вам предстоит ответить на 10 вопросов. Удачи!</p>
 
-        {% for question in quiz.questions %}
-            <h3>{{ question.content }}</h3>
-            <ul>
-                {% for answer in question.answers %}
-                    <li>
-                        <input type="checkbox" id="answer_{{ answer.id }}" name="answers[{{ question.id }}]" value="{{ answer.id }}">
-                        <label for="answer_{{ answer.id }}">{{ answer.content }}</label>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
+    {# <form method="POST" action="{{ path('submit_form') }}">
+        {{ form_start(form) }}
+
+        {{ form_row(form.name) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.message) }}
+
+        <button type="submit">Submit</button>
+
+        {{ form_end(form) }}
+    </form> #}
+
+    {% for question in quiz.questions %}
+        <h3>{{ question.content }}</h3>
+        <ul>
+            {% for answer in question.answers %}
+                <li>
+                    <input type="checkbox" id="answer_{{ answer.id }}" name="answers[{{ question.id }}]" value="{{ answer.id }}">
+                    <label for="answer_{{ answer.id }}">{{ answer.content }}</label>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    <button type="submit">Submit</button>
+    {# <form method="POST" action="{{ path('submit_form') }}">
+    </form> #}
 </div>
 {% endblock %}
