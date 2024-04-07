@@ -5,7 +5,7 @@
 {% block body %}
 <div class="example-wrapper">
     <h1>Последний результат теста!</h1>
-    {% if viewData is not defined %}
+    {% if viewData is null %}
         <h2>Тест не был пройден!</h2>
     {% else %}
         <h2>Количество вопросов на которые были получены все верные ответы: {{ viewData.correctQuestionsCount }}/{{ viewData.totalQuestionsCount }}</h2>

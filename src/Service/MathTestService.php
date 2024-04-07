@@ -59,8 +59,39 @@ class MathTestService
         return $this->resultService->save($result);
     }
 
-    public function getLastResult(): ?Result
+    public function getResultViewData(): ?array
     {
-        return $this->resultService->getLastWithRelations();
+        $result = $this->resultService->getLastWithRelations();
+        
+        if ($result === null) {
+            return null;
+        }
+
+        $viewData = [
+            'totalQuestionsCount' => 0,
+            'correctQuestions' => [],
+            'correctQuestionsCount' => [],
+            'incorrectQuestions' => [],
+            'incorrectQuestionsCount' => [],
+        ];
+
+        foreach ($result->getQuiz()->getQuestions() as $question) {
+            foreach ($question->getQuestionAnswers() as $questionAnswer) {
+                if ($questionAnswer->getIsCorrect() && $questionAnswer->getResultItems()->count() !== 1) {
+                    $viewData['incorrectQuestions'][] = $question;
+                    continue(2);
+                } else if (!$questionAnswer->getIsCorrect() && $questionAnswer->getResultItems()->count() === 1) {
+                    $viewData['incorrectQuestions'][] = $question;
+                    continue(2);
+                }
+            }
+            $viewData['correctQuestions'][] = $question;
+        }
+
+        $viewData['totalQuestionsCount'] = count($result->getQuiz()->getQuestions());
+        $viewData['correctQuestionsCount'] = count($viewData['correctQuestions']);
+        $viewData['incorrectQuestionsCount'] = count($viewData['incorrectQuestions']);
+
+        return $viewData;
     }
 }
