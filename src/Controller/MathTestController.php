@@ -47,9 +47,42 @@ class MathTestController extends AbstractController
         ]);
     }
 
-    #[Route('/math/test/results', name: 'app_math_test_result')]
-    public function results(): Response
+    #[Route('/math/test/result', name: 'app_math_test_result')]
+    public function result(): Response
     {
-        return $this->render('math_test/result.html.twig');
+        $result = $this->mathTestService->getLastResult();
+        if ($result === null) {
+            return $this->render('math_test/result.html.twig');
+        }
+
+        $viewData = [
+            'totalQuestionsCount' => 0,
+            'correctQuestions' => [],
+            'correctQuestionsCount' => [],
+            'incorrectQuestions' => [],
+            'incorrectQuestionsCount' => [],
+        ];
+
+
+        foreach ($result->getQuiz()->getQuestions() as $question) {
+            foreach ($question->getQuestionAnswers() as $questionAnswer) {
+                if ($questionAnswer->getIsCorrect() && $questionAnswer->getResultItems()->count() !== 1) {
+                    $viewData['incorrectQuestions'][] = $question;
+                    continue(2);
+                } else if (!$questionAnswer->getIsCorrect() && $questionAnswer->getResultItems()->count() === 1) {
+                    $viewData['incorrectQuestions'][] = $question;
+                    continue(2);
+                }
+            }
+            $viewData['correctQuestions'][] = $question;
+        }
+
+        $viewData['totalQuestionsCount'] = count($result->getQuiz()->getQuestions());
+        $viewData['correctQuestionsCount'] = count($viewData['correctQuestions']);
+        $viewData['incorrectQuestionsCount'] = count($viewData['incorrectQuestions']);
+
+        return $this->render('math_test/result.html.twig', [
+            'viewData' => $viewData
+        ]);
     }
 }

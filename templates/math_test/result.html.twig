@@ -10,10 +10,30 @@
 
 <div class="example-wrapper">
     <h1>Последний результат теста!</h1>
-    {% if form is not defined %}
+    {% if viewData is not defined %}
         <h2>Тест не был пройден!</h2>
     {% else %}
+        <h2>Количество вопросов на которые были получены все верные ответы: {{ viewData.correctQuestionsCount }}/{{ viewData.totalQuestionsCount }}</h2>
+        {% if viewData.correctQuestionsCount > 0 %}
+            <h3>Список:</h3>
+            <ul>
+            {% for question in viewData.correctQuestions %}
+                <li>{{ question.getContent() }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
 
+        <hr>
+
+        <h2>Количество вопросов на которые не были получены все верные ответы: {{ viewData.incorrectQuestionsCount }}/{{ viewData.totalQuestionsCount }}</h2>
+        {% if viewData.incorrectQuestions > 0 %}
+            <h3>Список:</h3>
+            <ul>
+            {% for question in viewData.incorrectQuestions %}
+                <li>{{ question.getContent() }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
     {% endif %}
 
     <a href="{{ path('app_math_test') }}">Пройти новый тест.</a>

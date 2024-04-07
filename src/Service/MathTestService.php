@@ -58,4 +58,9 @@ class MathTestService
 
         return $this->resultService->save($result);
     }
+
+    public function getLastResult(): ?Result
+    {
+        return $this->resultService->getLastWithRelations();
+    }
 }

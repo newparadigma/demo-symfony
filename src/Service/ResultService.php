@@ -29,6 +29,11 @@ class ResultService
         return $result;
     }
 
+    public function getLastWithRelations(): ?Result
+    {
+        return $this->resultRepository->getLastWithRelations();
+    }
+
     public function save(Result $result): Result
     {
         $this->entityManager->persist($result);
