@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ResultRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ResultRepository::class)]
@@ -13,23 +15,28 @@ class Result
     #[ORM\Column]
     private ?int $id = null;
 
+    // #[Assert\Type(type: Quiz::class)]
+    // #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'results')]
     private ?Quiz $quiz = null;
-
-    #[ORM\ManyToOne(inversedBy: 'results')]
-    private ?Question $question = null;
-
-    #[ORM\ManyToOne(inversedBy: 'results')]
-    private ?Answer $answer = null;
-
-    #[ORM\Column]
-    private ?int $iterationNumber = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\OneToMany(targetEntity: ResultItem::class, mappedBy: 'result', orphanRemoval: true)]
+    private Collection $resultItems;
+
+    #[ORM\ManyToOne(inversedBy: 'results')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Account $account = null;
+
+    public function __construct()
+    {
+        $this->resultItems = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,42 +51,6 @@ class Result
     public function setQuiz(?Quiz $quiz): static
     {
         $this->quiz = $quiz;
-
-        return $this;
-    }
-
-    public function getQuestion(): ?Question
-    {
-        return $this->question;
-    }
-
-    public function setQuestion(?Question $question): static
-    {
-        $this->question = $question;
-
-        return $this;
-    }
-
-    public function getAnswer(): ?Answer
-    {
-        return $this->answer;
-    }
-
-    public function setAnswer(?Answer $answer): static
-    {
-        $this->answer = $answer;
-
-        return $this;
-    }
-
-    public function getIterationNumber(): ?int
-    {
-        return $this->iterationNumber;
-    }
-
-    public function setIterationNumber(int $iterationNumber): static
-    {
-        $this->iterationNumber = $iterationNumber;
 
         return $this;
     }
@@ -119,5 +90,56 @@ class Result
     public function setUpdatedAtValue(): void
     {
         $this->updated_at = new \DateTimeImmutable();
+    }
+
+    /**
+     * @return Collection<int, ResultItem>
+     */
+    public function getResultItems(): Collection
+    {
+        return $this->resultItems;
+    }
+
+    public function addResultItem(ResultItem $resultItem): static
+    {
+        if (!$this->resultItems->contains($resultItem)) {
+            $this->resultItems->add($resultItem);
+            $resultItem->setResult($this);
+        }
+
+        return $this;
+    }
+
+    public function addResultItems(array $resultItems): static
+    {
+        foreach ($resultItems as $resultItem) {
+            $this->addResultItem($resultItem);
+        }
+
+        return $this;
+    }
+
+    public function removeResultItem(ResultItem $resultItem): static
+    {
+        if ($this->resultItems->removeElement($resultItem)) {
+            // set the owning side to null (unless already changed)
+            if ($resultItem->getResult() === $this) {
+                $resultItem->setResult(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAccount(): ?Account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(?Account $account): static
+    {
+        $this->account = $account;
+
+        return $this;
     }
 }

@@ -70,3 +70,10 @@
 3. 10
 
 Правильный ответ: 1 ИЛИ 2 ИЛИ (1 И 2)
+
+## Прочее, полезные ссылки
+
+[https://symfony.com/doc/current/best_practices.html](https://symfony.com/doc/current/best_practices.html)
+
+связь ResultItem -> QuestionAnser
+QuestionAnser добавить deleted_at

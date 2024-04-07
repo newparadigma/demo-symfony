@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
+use App\Entity\Account;
 use App\Entity\Quiz;
 use App\Entity\Question;
 use App\Entity\Answer;
@@ -16,6 +17,9 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        $account = new Account();
+        $manager->persist($account);
+
         $quiz = new Quiz();
         $quiz->setName(self::QUIZ_NAME);
         $quiz->setRandomizeQuestions(true);

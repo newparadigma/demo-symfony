@@ -24,9 +24,10 @@ class QuizRepository extends ServiceEntityRepository
     public function getWithRelationsByID(int $quizId): ?Quiz
     {
         return $this->createQueryBuilder('q')
-            ->select('q', 'question', 'answer')
+            ->select('q', 'question', 'questionAnswer', 'answer')
             ->leftJoin('q.questions', 'question')
-            ->leftJoin('question.answers', 'answer')
+            ->leftJoin('question.questionAnswers', 'questionAnswer')
+            ->leftJoin('questionAnswer.answer', 'answer')
             ->where('q.id = :quizId')
             ->setParameter('quizId', $quizId)
             ->getQuery()

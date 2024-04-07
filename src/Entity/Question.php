@@ -18,23 +18,23 @@ class Question
     #[ORM\Column(length: 255)]
     private ?string $content = null;
 
-    #[ORM\OneToMany(targetEntity: Result::class, mappedBy: 'question')]
-    private Collection $results;
+    #[ORM\OneToMany(targetEntity: ResultItem::class, mappedBy: 'question')]
+    private Collection $resultItems;
 
     #[ORM\ManyToMany(targetEntity: Quiz::class, mappedBy: 'questions')]
     private Collection $quizzes;
 
-    #[ORM\ManyToMany(targetEntity: Answer::class, inversedBy: 'questions')]
-    private Collection $answers;
+    // #[ORM\ManyToMany(targetEntity: Answer::class)]
+    // private Collection $answers;
 
     #[ORM\OneToMany(targetEntity: QuestionAnswer::class, mappedBy: 'question')]
     private Collection $questionAnswers;
 
     public function __construct()
     {
-        $this->results = new ArrayCollection();
+        $this->resultItems = new ArrayCollection();
         $this->quizzes = new ArrayCollection();
-        $this->answers = new ArrayCollection();
+        // $this->answers = new ArrayCollection();
         $this->questionAnswers = new ArrayCollection();
     }
 
@@ -56,33 +56,11 @@ class Question
     }
 
     /**
-     * @return Collection<int, Result>
+     * @return Collection<int, ResultItem>
      */
     public function getResults(): Collection
     {
-        return $this->results;
-    }
-
-    public function addResult(Result $result): static
-    {
-        if (!$this->results->contains($result)) {
-            $this->results->add($result);
-            $result->setQuestion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeResult(Result $result): static
-    {
-        if ($this->results->removeElement($result)) {
-            // set the owning side to null (unless already changed)
-            if ($result->getQuestion() === $this) {
-                $result->setQuestion(null);
-            }
-        }
-
-        return $this;
+        return $this->resultItems;
     }
 
     /**
@@ -112,29 +90,29 @@ class Question
         return $this;
     }
 
-    /**
-     * @return Collection<int, Answer>
-     */
-    public function getAnswers(): Collection
-    {
-        return $this->answers;
-    }
+    // /**
+    //  * @return Collection<int, Answer>
+    //  */
+    // public function getAnswers(): Collection
+    // {
+    //     return $this->answers;
+    // }
 
-    public function addAnswer(Answer $answer): static
-    {
-        if (!$this->answers->contains($answer)) {
-            $this->answers->add($answer);
-        }
+    // public function addAnswer(Answer $answer): static
+    // {
+    //     if (!$this->answers->contains($answer)) {
+    //         $this->answers->add($answer);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeAnswer(Answer $answer): static
-    {
-        $this->answers->removeElement($answer);
+    // public function removeAnswer(Answer $answer): static
+    // {
+    //     $this->answers->removeElement($answer);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * @return Collection<int, QuestionAnswer>

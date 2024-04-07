@@ -4,6 +4,9 @@ namespace App\Service;
 
 use App\Repository\ResultRepository;
 
+use App\Entity\Result;
+use App\Entity\Quiz;
+
 class ResultService
 {
     private const QUIZ_ID = 1;
@@ -15,12 +18,11 @@ class ResultService
         $this->resultRepository = $resultRepository;
     }
 
-    public function getQuizWithQuestionsAndAnswers()
+    public function makeResultFromQuiz(Quiz $quiz): Result
     {
-        // $quiz = $this->quizRepository->getDenormalizedDataByID(self::QUIZ_ID);
-        // dd($quiz[0]->getQuizQuestions());
-        // Бизнес-логика обработки заказа
-        // Например, сохранение заказа в базу данных
-        // $this->orderRepository->save($order);
+        $result = new Result();
+        $result->setQuiz($quiz);
+
+        return $result;
     }
 }

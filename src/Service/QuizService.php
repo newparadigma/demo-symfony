@@ -2,13 +2,11 @@
 
 namespace App\Service;
 
-// use App\Entity\Order;
+use App\Entity\Quiz;
 use App\Repository\QuizRepository;
 
 class QuizService
 {
-    private const QUIZ_ID = 1;
-
     private $quizRepository;
 
     public function __construct(QuizRepository $quizRepository)
@@ -16,9 +14,8 @@ class QuizService
         $this->quizRepository = $quizRepository;
     }
 
-    public function getWithRelationsByID()
+    public function getWithRelationsByID(int $quizId): ?Quiz
     {
-        $data = $this->quizRepository->getWithRelationsByID(self::QUIZ_ID);
-        return $data;
+        return $this->quizRepository->getWithRelationsByID($quizId);
     }
 }

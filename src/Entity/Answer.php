@@ -18,8 +18,8 @@ class Answer
     #[ORM\Column(length: 255)]
     private ?string $content = null;
 
-    #[ORM\OneToMany(targetEntity: Result::class, mappedBy: 'answer')]
-    private Collection $results;
+    #[ORM\OneToMany(targetEntity: ResultItem::class, mappedBy: 'answer')]
+    private Collection $resultItems;
 
     // #[ORM\ManyToMany(targetEntity: Question::class, mappedBy: 'answers')]
     // private Collection $questions;
@@ -29,7 +29,7 @@ class Answer
 
     public function __construct()
     {
-        $this->results = new ArrayCollection();
+        $this->resultItems = new ArrayCollection();
         // $this->questions = new ArrayCollection();
         $this->questionAnswers = new ArrayCollection();
     }
@@ -52,29 +52,29 @@ class Answer
     }
 
     /**
-     * @return Collection<int, Result>
+     * @return Collection<int, ResultItem>
      */
     public function getResults(): Collection
     {
-        return $this->results;
+        return $this->resultItems;
     }
 
-    public function addResult(Result $result): static
+    public function addResult(ResultItem $resultItem): static
     {
-        if (!$this->results->contains($result)) {
-            $this->results->add($result);
-            $result->setAnswer($this);
+        if (!$this->resultItems->contains($resultItem)) {
+            $this->resultItems->add($resultItem);
+            $resultItem->setAnswer($this);
         }
 
         return $this;
     }
 
-    public function removeResult(Result $result): static
+    public function removeResult(ResultItem $resultItem): static
     {
-        if ($this->results->removeElement($result)) {
+        if ($this->resultItems->removeElement($resultItem)) {
             // set the owning side to null (unless already changed)
-            if ($result->getAnswer() === $this) {
-                $result->setAnswer(null);
+            if ($resultItem->getAnswer() === $this) {
+                $resultItem->setAnswer(null);
             }
         }
 

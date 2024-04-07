@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-use App\Form\QuizType;
+use App\Form\ResultType;
 
 use App\Service\MathTestService;
 
@@ -23,24 +23,47 @@ class MathTestController extends AbstractController
     #[Route('/math/test', name: 'app_math_test')]
     public function index(Request $request): Response
     {
-        $quiz = $this->mathTestService->getQuiz();
+        $mathTest = $this->mathTestService->getMathTest();
 
-        $form = $this->createForm(QuizType::class, $quiz);
+        if ($mathTest === null) {
+            return $this->render('math_test/index.html.twig');
+        }
+
+        $form = $this->createForm(ResultType::class, $mathTest);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Обработка данных формы, например сохранение в базу данных
             $requestData = $request->request->all();
             dd($requestData);
-            // ... действия по обработке данных ...
 
-            // Перенаправление на другую страницу или что-то еще
-            return $this->redirectToRoute('your_success_route');
+            return $this->redirectToRoute('app_math_test_results');
         }
 
         return $this->render('math_test/index.html.twig', [
-            'quiz' => $quiz,
-            'form' => $form->createView(),
+            'mathTest' => $mathTest,
+            'form' => $form->createView()
         ]);
     }
+
+    // #[Route('/math/test/results', name: 'app_math_test_results')]
+    // public function results(Request $request): Response
+    // {
+    //     $quiz = $this->mathTestService->getQuiz();
+
+    //     $form = $this->createForm(QuizType::class, $quiz);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $requestData = $request->request->all();
+    //         $this->mathTestService->saveMathTestResults($requestData);
+
+    //         return $this->redirectToRoute('your_success_route');
+    //     }
+
+    //     return $this->render('math_test/index.html.twig', [
+    //         'quiz' => $quiz,
+    //         'form' => $form->createView(),
+    //     ]);
+    // }
 }

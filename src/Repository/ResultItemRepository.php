@@ -2,29 +2,29 @@
 
 namespace App\Repository;
 
-use App\Entity\Result;
+use App\Entity\ResultItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Result>
+ * @extends ServiceEntityRepository<ResultItem>
  *
- * @method Result|null find($id, $lockMode = null, $lockVersion = null)
- * @method Result|null findOneBy(array $criteria, array $orderBy = null)
- * @method Result[]    findAll()
- * @method Result[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ResultItem|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ResultItem|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ResultItem[]    findAll()
+ * @method ResultItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ResultRepository extends ServiceEntityRepository
+class ResultItemRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Result::class);
+        parent::__construct($registry, ResultItem::class);
     }
 
     // public function batchInsert(array $data)
     // {
     //     foreach ($data as $item) {
-    //         $entity = new Result();
+    //         $entity = new ResultItem();
     //         $entity->setProp1($item['prop1']);
     //         $entity->setProp2($item['prop2']);
     //         // Установите другие свойства сущности по вашему усмотрению
@@ -36,7 +36,7 @@ class ResultRepository extends ServiceEntityRepository
     // }
 
     //    /**
-    //     * @return Result[] Returns an array of Result objects
+    //     * @return ResultItem[] Returns an array of ResultItem objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -50,7 +50,7 @@ class ResultRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Result
+    //    public function findOneBySomeField($value): ?ResultItem
     //    {
     //        return $this->createQueryBuilder('r')
     //            ->andWhere('r.exampleField = :val')

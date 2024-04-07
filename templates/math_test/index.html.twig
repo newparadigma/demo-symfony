@@ -9,39 +9,27 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Пройдите тест на знание арифметики! ✅</h1>
-    <p>{{ quiz.name }}</p>
-    <p>Вам предстоит ответить на 10 вопросов. Удачи!</p>
-
-    <form method="post">
+    {% if form is not defined %}
+        <h1>Тесты отсутствуют!</h1>
+    {% else %}
+        <form method="post">
         {{ form_start(form) }}
-        {# {% for questionForm in form.questions %}
-            <h3>{{ questionForm.vars.data.content }}</h3>
 
-            <div class="answers">
-                {{ form_errors(questionForm.answers) }}
-                {% for answerForm in questionForm.answers %}
-                    <div class="answer">
-                        {{ form_widget(answerForm) }}
-                        {{ form_label(answerForm) }}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endfor %} #}
+        {# {{ form_row(form.quiz) }} #}
+        <input type="hidden" id="result_quiz" name="result[quiz]" value="{{ mathTest.quiz.id }}">
 
-        {% for question in quiz.questions %}
-            <h3>{{ question.content }}</h3>
-            <ul>
-                {% for answer in question.answers %}
-                    <li>
-                        <input type="checkbox" id="answer_{{ question.id }}_{{ answer.id }}" name="answers[{{ question.id }}][{{ answer.id }}]" value="{{ answer.id }}">
-                        <label for="answer_{{ question.id }}_{{ answer.id }}">{{ answer.content }}</label>
-                    </li>
-                {% endfor %}
-            </ul>
+        {% for question in mathTest.quiz.questions %}
+            <p>{{ question.content }}</p>
+            {% for questionAnswer in question.questionAnswers %}
+                <input type="checkbox" id="{{ questionAnswer.id }}" name="result_result_item[{{ questionAnswer.id }}]" value="1">
+                <label for="{{ questionAnswer.id }}">{{ questionAnswer.answer.content }}</label><br>
+            {% endfor %}
         {% endfor %}
-        <button type="submit">Submit</button>
+
+        {# {{ form_row(form.save) }} #}
+
         {{ form_end(form) }}
-    </form>
+        </form>
+    {% endif %}
 </div>
 {% endblock %}
