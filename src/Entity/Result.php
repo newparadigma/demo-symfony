@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ResultRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Result
 {
     #[ORM\Id]
@@ -26,7 +27,7 @@ class Result
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\OneToMany(targetEntity: ResultItem::class, mappedBy: 'result', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ResultItem::class, mappedBy: 'result', cascade: ['persist'])]
     private Collection $resultItems;
 
     #[ORM\ManyToOne(inversedBy: 'results')]
@@ -116,6 +117,13 @@ class Result
             $this->addResultItem($resultItem);
         }
 
+        return $this;
+    }
+
+    public function setResultItems(array $resultItems): static
+    {
+        $this->resultItems = new ArrayCollection($resultItems);
+        
         return $this;
     }
 

@@ -21,20 +21,6 @@ class ResultRepository extends ServiceEntityRepository
         parent::__construct($registry, Result::class);
     }
 
-    // public function batchInsert(array $data)
-    // {
-    //     foreach ($data as $item) {
-    //         $entity = new Result();
-    //         $entity->setProp1($item['prop1']);
-    //         $entity->setProp2($item['prop2']);
-    //         // Установите другие свойства сущности по вашему усмотрению
-            
-    //         $this->entityManager->persist($entity);
-    //     }
-
-    //     $this->entityManager->flush();
-    // }
-
     //    /**
     //     * @return Result[] Returns an array of Result objects
     //     */

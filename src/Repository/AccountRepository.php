@@ -21,6 +21,11 @@ class AccountRepository extends ServiceEntityRepository
         parent::__construct($registry, Account::class);
     }
 
+       public function getLast(): ?Account
+       {
+           return $this->findOneBy([], ['id' => 'DESC']);
+       }
+
     //    /**
     //     * @return Account[] Returns an array of Account objects
     //     */

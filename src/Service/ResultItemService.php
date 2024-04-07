@@ -5,26 +5,25 @@ namespace App\Service;
 use App\Entity\ResultItem;
 use App\Entity\Quiz;
 
-use App\Repository\ResultRepository;
+// use App\Repository\ResultRepository;
 
 class ResultItemService
 {
-    private $resultRepository;
+    // private $resultRepository;
 
-    public function __construct(ResultRepository $resultRepository)
-    {
-        $this->resultRepository = $resultRepository;
-    }
+    // public function __construct(ResultRepository $resultRepository)
+    // {
+    //     $this->resultRepository = $resultRepository;
+    // }
 
     public function makeResultItemsFromQuiz(Quiz $quiz): array
     {
         $resultItems = [];
         foreach ($quiz->getQuestions() as $question) {
-            foreach ($question->getAnswers() as $answer) {
+            foreach ($question->getQuestionAnswers() as $questionAnswer) {
                 $resultItem = new ResultItem();
-                $resultItem->setQuestion($question);
-                $resultItem->setAnswer($answer);
-                // $answer->addResultItem($resultItem);
+                $resultItem->setQuestionAnswer($questionAnswer);
+                // $questionAnswer->addResultItem($resultItem);
                 $resultItems[] = $resultItem;
             }
         }

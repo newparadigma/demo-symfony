@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Арифметический тест!{% endblock %}
+{% block title %}Тест!{% endblock %}
 
 {% block body %}
 <style>
@@ -9,27 +9,25 @@
 </style>
 
 <div class="example-wrapper">
+    <h1>Тест!</h1>
     {% if form is not defined %}
-        <h1>Тесты отсутствуют!</h1>
+        <h2>Тест отсутствует!</h2>
     {% else %}
-        <form method="post">
         {{ form_start(form) }}
 
-        {# {{ form_row(form.quiz) }} #}
         <input type="hidden" id="result_quiz" name="result[quiz]" value="{{ mathTest.quiz.id }}">
 
         {% for question in mathTest.quiz.questions %}
-            <p>{{ question.content }}</p>
+            <h2>{{ question.content }}</h2>
             {% for questionAnswer in question.questionAnswers %}
-                <input type="checkbox" id="{{ questionAnswer.id }}" name="result_result_item[{{ questionAnswer.id }}]" value="1">
+                <input type="checkbox" id="{{ questionAnswer.id }}" name="result_result_item[cheked][]" value="{{ questionAnswer.id }}">
                 <label for="{{ questionAnswer.id }}">{{ questionAnswer.answer.content }}</label><br>
             {% endfor %}
         {% endfor %}
 
-        {# {{ form_row(form.save) }} #}
 
+        <button type="submit">Отправить</button>
         {{ form_end(form) }}
-        </form>
     {% endif %}
 </div>
 {% endblock %}

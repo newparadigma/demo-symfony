@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\MathTest;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,9 +12,9 @@ class ResultItemType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // $builder->add('id', CheckboxType::class, [
-        //     'label' => false,
-        // ]);
+        $builder->add('checked', CheckboxType::class, [
+            'label' => false,
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
