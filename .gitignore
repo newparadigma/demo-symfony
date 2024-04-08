@@ -25,3 +25,5 @@
 ###< symfony/asset-mapper ###
 
 .DS_Store
+composer.lock
+docker-compose.yml

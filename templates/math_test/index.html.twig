@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Тест!{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>Тест!</h1>
+    {% if form is not defined %}
+        <h2>Тест отсутствует!</h2>
+    {% else %}
+        {{ form_start(form) }}
+        <h2>{{ form.vars.value.quiz.name }}</h2>
+        {% for question in mathTest.quiz.questions %}
+            <h3>{{ question.content }}</h3>
+            {% for questionAnswer in question.questionAnswers %}
+                {% for resuilItemForm in form.resultItems %}
+                    {% if questionAnswer.id == resuilItemForm.vars.data.questionAnswer.id %}
+                        <div>
+                            {{ form_widget(resuilItemForm.checked) }}
+                            <label for="result_resultItems_{{ questionAnswer.id }}_id">{{ questionAnswer.answer.content }}</label>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+        <button type="submit">Отправить</button>
+        {{ form_end(form) }}
+        <a href="{{ path('result') }}">Посмотреть результаты прошлого тестирования.</a>
+    {% endif %}
+</div>
+{% endblock %}
