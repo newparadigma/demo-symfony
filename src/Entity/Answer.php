@@ -21,16 +21,12 @@ class Answer
     #[ORM\OneToMany(targetEntity: ResultItem::class, mappedBy: 'answer')]
     private Collection $resultItems;
 
-    // #[ORM\ManyToMany(targetEntity: Question::class, mappedBy: 'answers')]
-    // private Collection $questions;
-
     #[ORM\OneToMany(targetEntity: QuestionAnswer::class, mappedBy: 'answer')]
     private Collection $questionAnswers;
 
     public function __construct()
     {
         $this->resultItems = new ArrayCollection();
-        // $this->questions = new ArrayCollection();
         $this->questionAnswers = new ArrayCollection();
     }
 
@@ -58,55 +54,6 @@ class Answer
     {
         return $this->resultItems;
     }
-
-    public function addResult(ResultItem $resultItem): static
-    {
-        if (!$this->resultItems->contains($resultItem)) {
-            $this->resultItems->add($resultItem);
-            $resultItem->setAnswer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeResult(ResultItem $resultItem): static
-    {
-        if ($this->resultItems->removeElement($resultItem)) {
-            // set the owning side to null (unless already changed)
-            if ($resultItem->getAnswer() === $this) {
-                $resultItem->setAnswer(null);
-            }
-        }
-
-        return $this;
-    }
-
-    // /**
-    //  * @return Collection<int, Question>
-    //  */
-    // public function getQuestions(): Collection
-    // {
-    //     return $this->questions;
-    // }
-
-    // public function addQuestion(Question $question): static
-    // {
-    //     if (!$this->questions->contains($question)) {
-    //         $this->questions->add($question);
-    //         $question->addAnswer($this);
-    //     }
-
-    //     return $this;
-    // }
-
-    // public function removeQuestion(Question $question): static
-    // {
-    //     if ($this->questions->removeElement($question)) {
-    //         $question->removeAnswer($this);
-    //     }
-
-    //     return $this;
-    // }
 
     /**
      * @return Collection<int, QuestionAnswer>
