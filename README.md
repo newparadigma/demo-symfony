@@ -1,7 +1,9 @@
 # Проект - тестовое задание
 
 ## **Проект имеет APP_SECRET в открытом доступе, если планируете использовать проект в продакшене вам следует сменить его!**
+
 ## **Я ЛАРАВЕЛЬ РАЗРАБОТЧИК, ЭТО ПЕРВОЕ МОЕ ЗНАКОМСТВО С СИМФОНИ ВООБЩЕ**
+
 ## Инструкция по развертыванию проекта
 
 1. Клонировать репозиторий и установить docker-compose.
@@ -74,6 +76,3 @@
 ## Прочее, полезные ссылки
 
 [https://symfony.com/doc/current/best_practices.html](https://symfony.com/doc/current/best_practices.html)
-
-связь ResultItem -> QuestionAnser
-QuestionAnser добавить deleted_at
