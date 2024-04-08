@@ -5,16 +5,16 @@ namespace App\Service;
 use App\Entity\ResultItem;
 use App\Entity\Quiz;
 
-// use App\Repository\ResultRepository;
+use App\Repository\ResultItemRepository;
 
 class ResultItemService
 {
-    // private $resultRepository;
+    private $resultItemRepository;
 
-    // public function __construct(ResultRepository $resultRepository)
-    // {
-    //     $this->resultRepository = $resultRepository;
-    // }
+    public function __construct(ResultItemRepository $resultItemRepository)
+    {
+        $this->resultItemRepository = $resultItemRepository;
+    }
 
     public function makeResultItemsFromQuiz(Quiz $quiz): array
     {
