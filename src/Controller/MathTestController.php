@@ -20,7 +20,7 @@ class MathTestController extends AbstractController
         $this->mathTestService = $mathTestService;
     }
 
-    #[Route('/math/test', name: 'app_math_test')]
+    #[Route('/', name: 'index')]
     public function index(Request $request): Response
     {
         $mathTest = $this->mathTestService->getMathTest();
@@ -37,7 +37,7 @@ class MathTestController extends AbstractController
 
             $mathTest = $this->mathTestService->saveResult($result);
 
-            return $this->redirectToRoute('app_math_test_result');
+            return $this->redirectToRoute('result');
         }
 
         return $this->render('math_test/index.html.twig', [
@@ -46,7 +46,7 @@ class MathTestController extends AbstractController
         ]);
     }
 
-    #[Route('/math/test/result', name: 'app_math_test_result')]
+    #[Route('/result', name: 'result')]
     public function result(): Response
     {
         $viewData = $this->mathTestService->getResultViewData();

@@ -25,6 +25,7 @@
         {% endfor %}
         <button type="submit">Отправить</button>
         {{ form_end(form) }}
+        <a href="{{ path('result') }}">Посмотреть результаты прошлого тестирования.</a>
     {% endif %}
 </div>
 {% endblock %}
