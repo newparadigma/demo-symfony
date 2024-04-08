@@ -2,9 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Quiz;
 use App\Entity\Result;
-use App\Entity\ResultItem;
 
 use App\Service\QuizService;
 use App\Service\ResultService;
@@ -41,6 +39,7 @@ class MathTestService
         
         $resultItems = $this->resultItemService->makeResultItemsFromQuiz($quiz);
         $result->addResultItems($resultItems);
+
         return $result;
     }
 
@@ -69,9 +68,9 @@ class MathTestService
         $viewData = [
             'totalQuestionsCount' => 0,
             'correctQuestions' => [],
-            'correctQuestionsCount' => [],
+            'correctQuestionsCount' => 0,
             'incorrectQuestions' => [],
-            'incorrectQuestionsCount' => [],
+            'incorrectQuestionsCount' => 0,
         ];
 
         $questionAnswerIds = [];

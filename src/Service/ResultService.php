@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Repository\ResultRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use App\Entity\Result;
 use App\Entity\Quiz;
@@ -24,6 +25,14 @@ class ResultService
     public function makeResultFromQuiz(Quiz $quiz): Result
     {
         $result = new Result();
+
+        // нужно сначала разобраться с формой
+        // if ($quiz->isRandomizeQuestions()) {
+        //     $array = $quiz->getQuestions()->toArray();
+        //     shuffle($array);
+        //     $quiz->setQuestions(new ArrayCollection($array));
+        // }
+
         $result->setQuiz($quiz);
 
         return $result;

@@ -109,6 +109,13 @@ class Quiz
         return $this;
     }
 
+    public function setQuestions(ArrayCollection $questions): static
+    {
+        $this->questions = $questions;
+
+        return $this;
+    }
+
     public function removeQuestion(Question $question): static
     {
         $this->questions->removeElement($question);
