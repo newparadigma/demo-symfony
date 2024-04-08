@@ -20,43 +20,4 @@ class ResultItemRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ResultItem::class);
     }
-
-    // public function batchInsert(array $data)
-    // {
-    //     foreach ($data as $item) {
-    //         $entity = new ResultItem();
-    //         $entity->setProp1($item['prop1']);
-    //         $entity->setProp2($item['prop2']);
-    //         // Установите другие свойства сущности по вашему усмотрению
-            
-    //         $this->entityManager->persist($entity);
-    //     }
-
-    //     $this->entityManager->flush();
-    // }
-
-    //    /**
-    //     * @return ResultItem[] Returns an array of ResultItem objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?ResultItem
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

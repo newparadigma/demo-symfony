@@ -24,7 +24,6 @@ class ResultItemService
                 $resultItem = new ResultItem();
                 $resultItem->setQuestionAnswer($questionAnswer);
                 $resultItem->setChecked(false);
-                // $questionAnswer->addResultItem($resultItem);
                 $resultItems[] = $resultItem;
             }
         }

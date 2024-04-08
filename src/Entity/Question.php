@@ -24,9 +24,6 @@ class Question
     #[ORM\ManyToMany(targetEntity: Quiz::class, mappedBy: 'questions')]
     private Collection $quizzes;
 
-    // #[ORM\ManyToMany(targetEntity: Answer::class)]
-    // private Collection $answers;
-
     #[ORM\OneToMany(targetEntity: QuestionAnswer::class, mappedBy: 'question')]
     private Collection $questionAnswers;
 
@@ -34,7 +31,6 @@ class Question
     {
         $this->resultItems = new ArrayCollection();
         $this->quizzes = new ArrayCollection();
-        // $this->answers = new ArrayCollection();
         $this->questionAnswers = new ArrayCollection();
     }
 
@@ -89,30 +85,6 @@ class Question
 
         return $this;
     }
-
-    // /**
-    //  * @return Collection<int, Answer>
-    //  */
-    // public function getAnswers(): Collection
-    // {
-    //     return $this->answers;
-    // }
-
-    // public function addAnswer(Answer $answer): static
-    // {
-    //     if (!$this->answers->contains($answer)) {
-    //         $this->answers->add($answer);
-    //     }
-
-    //     return $this;
-    // }
-
-    // public function removeAnswer(Answer $answer): static
-    // {
-    //     $this->answers->removeElement($answer);
-
-    //     return $this;
-    // }
 
     /**
      * @return Collection<int, QuestionAnswer>
