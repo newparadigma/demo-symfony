@@ -18,19 +18,11 @@ class ResultType extends AbstractType
         $builder
             ->add('quiz', QuizType::class, [
                 'mapped' => false,
+                'label' => false
             ])
             ->add('resultItems', CollectionType::class, [
                 'entry_type' => ResultItemType::class
             ]);
-            // ->add('resultItems', CollectionType::class, [
-            //     'entry_type' => CheckboxType::class,
-            //     'entry_options' => [
-            //         'label' => false,
-            //         'required' => false,
-            //     ],
-            //     'by_reference' => false,
-            //     // 'data' => 'abcdef',
-            // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
