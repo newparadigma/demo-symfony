@@ -12,7 +12,8 @@ class ResultItemType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('checked', CheckboxType::class, [
+        $builder
+        ->add('id', CheckboxType::class, [
             'label' => false,
         ]);
     }

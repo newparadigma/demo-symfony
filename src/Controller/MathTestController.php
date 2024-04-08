@@ -24,11 +24,11 @@ class MathTestController extends AbstractController
     public function index(Request $request): Response
     {
         $mathTest = $this->mathTestService->getMathTest();
-
+        
         if ($mathTest === null) {
             return $this->render('math_test/index.html.twig');
         }
-
+        // dd($mathTest);
         $form = $this->createForm(ResultType::class, $mathTest);
         $form->handleRequest($request);
         // if ($form->isSubmitted() && $form->isValid()) {

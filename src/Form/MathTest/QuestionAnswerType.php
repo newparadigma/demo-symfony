@@ -12,10 +12,10 @@ class QuestionAnswerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('resultItems', CollectionType::class, [
-                'entry_type' => ResultItemType::class
-            ]);
+        // $builder
+        //     ->add('resultItems', CollectionType::class, [
+        //         'entry_type' => ResultItemType::class
+        //     ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -17,6 +17,9 @@ class ResultType extends AbstractType
         $builder
             ->add('quiz', QuizType::class, [
                 'mapped' => false,
+            ])
+            ->add('resultItems', CollectionType::class, [
+                'entry_type' => ResultItemType::class
             ]);
     }
 

@@ -9,8 +9,36 @@
         <h2>Тест отсутствует!</h2>
     {% else %}
         {{ form_start(form) }}
+        <h2>{{ form.vars.value.quiz.name }}</h2>
+        {% for question in mathTest.quiz.questions %}
+            <h3>{{ question.content }}</h3>
+            {% for questionAnswer in question.questionAnswers %}
+                {% for resuilItemForm in form.resultItems %}
+                    {% if questionAnswer.id == resuilItemForm.vars.data.questionAnswer.id %}
+                        {{ form_row(resuilItemForm.id) }}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            {# {{ form_row(resuilItemForm.id) }} #}
+        {% endfor %}
 
-        <input type="hidden" id="result_quiz" name="result[quiz]" value="{{ mathTest.quiz.id }}">
+        {# {% for resuilItemForm in form.resultItems %}
+            {{ form_row(resuilItemForm.id) }}
+        {% endfor %} #}
+        {# {% for questionForm in form.quiz.questions %}
+            <h2>{{ questionForm.vars.data.content }}</h2>
+            {% for questionAnswerForm in questionForm.questionAnswer %}
+                {% for resultItemForm in questionAnswerForm.resultItems %}
+                    {{ form_row(resultItemForm.id) }}
+                {% endfor %}
+            {% endfor %}
+        {% endfor %} #}
+
+
+{# {% for questionForm in form.quiz.questions %}
+    <h2>{{ questionForm.vars.data.content }}</h2>
+{% endfor %} #}
+        {# <input type="hidden" id="result_quiz" name="result[quiz]" value="{{ mathTest.quiz.id }}">
 
         {% for question in mathTest.quiz.questions %}
             <h2>{{ question.content }}</h2>
@@ -20,7 +48,7 @@
             {% endfor %}
         {% endfor %}
 
-        <button type="submit">Отправить</button>
+        <button type="submit">Отправить</button> #}
         {{ form_end(form) }}
     {% endif %}
 </div>
