@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240407183431 extends AbstractMigration
+final class Version20240408080455 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -42,11 +42,9 @@ final class Version20240407183431 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_136AC1139B6B5FBA ON result (account_id)');
         $this->addSql('COMMENT ON COLUMN result.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN result.updated_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE result_item (id INT NOT NULL, result_id INT NOT NULL, question_answer_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE result_item (id INT NOT NULL, result_id INT NOT NULL, question_answer_id INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_8F203E507A7B643 ON result_item (result_id)');
         $this->addSql('CREATE INDEX IDX_8F203E50A3E60C9C ON result_item (question_answer_id)');
-        $this->addSql('COMMENT ON COLUMN result_item.created_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('COMMENT ON COLUMN result_item.updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_75EA56E0FB7336F0 ON messenger_messages (queue_name)');
         $this->addSql('CREATE INDEX IDX_75EA56E0E3BD61CE ON messenger_messages (available_at)');
