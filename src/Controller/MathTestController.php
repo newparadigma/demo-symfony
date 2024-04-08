@@ -28,15 +28,14 @@ class MathTestController extends AbstractController
         if ($mathTest === null) {
             return $this->render('math_test/index.html.twig');
         }
-        // dd($mathTest);
+
         $form = $this->createForm(ResultType::class, $mathTest);
         $form->handleRequest($request);
-        // if ($form->isSubmitted() && $form->isValid()) {
-        if ($form->isSubmitted()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $result = $form->getData();
 
-            $requestData = $request->request->all();
-            $mathTest = $this->mathTestService->saveResult($result, $requestData);
+            $mathTest = $this->mathTestService->saveResult($result);
 
             return $this->redirectToRoute('app_math_test_result');
         }

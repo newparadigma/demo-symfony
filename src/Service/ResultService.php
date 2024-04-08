@@ -40,10 +40,9 @@ class ResultService
         $this->entityManager->flush();
 
         foreach ($result->getResultItems() as $resultItem) {
-            dd($resultItem);
             $this->entityManager->persist($resultItem);
         }
-        // $this->entityManager->flush();
+        $this->entityManager->flush();
 
         return $result;
     }

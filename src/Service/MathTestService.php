@@ -44,11 +44,10 @@ class MathTestService
         return $result;
     }
 
-    public function saveResult(Result $result, array $requestData): Result
+    public function saveResult(Result $result): Result
     {
-        $checkedResultItems = $requestData['result_result_item']['cheked'];
         foreach ($result->getResultItems() as $resultItem) {
-            if (!in_array($resultItem->getId(), $checkedResultItems)) {
+            if (!$resultItem->getChecked()) {
                 $result->removeResultItem($resultItem);
             }
         }

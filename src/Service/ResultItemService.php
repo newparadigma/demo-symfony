@@ -23,6 +23,7 @@ class ResultItemService
             foreach ($question->getQuestionAnswers() as $questionAnswer) {
                 $resultItem = new ResultItem();
                 $resultItem->setQuestionAnswer($questionAnswer);
+                $resultItem->setChecked(false);
                 // $questionAnswer->addResultItem($resultItem);
                 $resultItems[] = $resultItem;
             }

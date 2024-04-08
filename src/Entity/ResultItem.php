@@ -6,6 +6,7 @@ use App\Repository\ResultItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ResultItemRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class ResultItem
 {
     #[ORM\Id]
@@ -26,6 +27,8 @@ class ResultItem
     #[ORM\ManyToOne(inversedBy: 'resultItems')]
     #[ORM\JoinColumn(nullable: false)]
     private ?QuestionAnswer $questionAnswer = null;
+
+    private ?bool $checked = null;
 
     public function getId(): ?int
     {
@@ -89,6 +92,18 @@ class ResultItem
     public function setQuestionAnswer(?QuestionAnswer $questionAnswer): static
     {
         $this->questionAnswer = $questionAnswer;
+
+        return $this;
+    }
+
+    public function getChecked(): ?bool
+    {
+        return $this->checked;
+    }
+
+    public function setChecked(?bool $checked): static
+    {
+        $this->checked = $checked;
 
         return $this;
     }
