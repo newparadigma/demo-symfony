@@ -74,12 +74,17 @@ class MathTestService
             'incorrectQuestionsCount' => [],
         ];
 
+        $questionAnswerIds = [];
+        foreach ($result->getResultItems() as $resultItem) {
+            $questionAnswerIds[] = $resultItem->getQuestionAnswer()->getId();
+        }
+
         foreach ($result->getQuiz()->getQuestions() as $question) {
             foreach ($question->getQuestionAnswers() as $questionAnswer) {
-                if ($questionAnswer->getIsCorrect() && $questionAnswer->getResultItems()->count() !== 1) {
+                if ($questionAnswer->getIsCorrect() && !in_array($questionAnswer->getId(), $questionAnswerIds)) {
                     $viewData['incorrectQuestions'][] = $question;
                     continue(2);
-                } else if (!$questionAnswer->getIsCorrect() && $questionAnswer->getResultItems()->count() === 1) {
+                } else if (!$questionAnswer->getIsCorrect() && in_array($questionAnswer->getId(), $questionAnswerIds)) {
                     $viewData['incorrectQuestions'][] = $question;
                     continue(2);
                 }

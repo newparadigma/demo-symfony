@@ -34,11 +34,11 @@ class ResultRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('result')
             ->select('result', 'quiz', 'question', 'questionAnswer', 'resultItem')
-            // ->leftJoin('result.resultItems', 'resultItem')
+            ->leftJoin('result.resultItems', 'resultItem')
             ->leftJoin('result.quiz', 'quiz')
             ->leftJoin('quiz.questions', 'question')
             ->leftJoin('question.questionAnswers', 'questionAnswer')
-            ->leftJoin('questionAnswer.resultItems', 'resultItem')
+            // ->leftJoin('questionAnswer.resultItems', 'resultItem')
             ->andWhere('result.id = :maxId')
             ->setParameter('maxId', $subquery[1])
             ->getQuery()
