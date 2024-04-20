@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Result;
+use App\DTO\ResultViewDTO;
 
 use App\Service\QuizService;
 use App\Service\ResultService;
@@ -57,44 +58,41 @@ class MathTestService
         return $this->resultService->save($result);
     }
 
-    public function getResultViewData(): ?array
+    public function getResultViewData(): ?ResultViewDTO
     {
         $result = $this->resultService->getLastWithRelations();
-        
+
         if ($result === null) {
             return null;
         }
-
-        $viewData = [
-            'totalQuestionsCount' => 0,
-            'correctQuestions' => [],
-            'correctQuestionsCount' => 0,
-            'incorrectQuestions' => [],
-            'incorrectQuestionsCount' => 0,
-        ];
 
         $questionAnswerIds = [];
         foreach ($result->getResultItems() as $resultItem) {
             $questionAnswerIds[] = $resultItem->getQuestionAnswer()->getId();
         }
 
+        $incorrectQuestions = [];
+        $correctQuestions = [];
+
         foreach ($result->getQuiz()->getQuestions() as $question) {
             foreach ($question->getQuestionAnswers() as $questionAnswer) {
                 if ($questionAnswer->getIsCorrect() && !in_array($questionAnswer->getId(), $questionAnswerIds)) {
-                    $viewData['incorrectQuestions'][] = $question;
+                    $incorrectQuestions[] = $question;
                     continue(2);
                 } else if (!$questionAnswer->getIsCorrect() && in_array($questionAnswer->getId(), $questionAnswerIds)) {
-                    $viewData['incorrectQuestions'][] = $question;
+                    $incorrectQuestions[] = $question;
                     continue(2);
                 }
             }
-            $viewData['correctQuestions'][] = $question;
+            $correctQuestions[] = $question;
         }
 
-        $viewData['totalQuestionsCount'] = count($result->getQuiz()->getQuestions());
-        $viewData['correctQuestionsCount'] = count($viewData['correctQuestions']);
-        $viewData['incorrectQuestionsCount'] = count($viewData['incorrectQuestions']);
-
-        return $viewData;
+        return new ResultViewDTO(
+            $totalQuestionsCount = count($result->getQuiz()->getQuestions()),
+            $correctQuestionsCount = count($correctQuestions),
+            $incorrectQuestionsCount = count($incorrectQuestions),
+            $correctQuestions = $correctQuestions,
+            $incorrectQuestions = $incorrectQuestions
+        );
     }
 }
