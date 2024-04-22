@@ -75,16 +75,20 @@ class MathTestService
         $correctQuestions = [];
 
         foreach ($result->getQuiz()->getQuestions() as $question) {
+            $correctAnswersExists = false;
             foreach ($question->getQuestionAnswers() as $questionAnswer) {
-                if ($questionAnswer->getIsCorrect() && !in_array($questionAnswer->getId(), $questionAnswerIds)) {
-                    $incorrectQuestions[] = $question;
-                    continue(2);
+                if ($questionAnswer->getIsCorrect() && in_array($questionAnswer->getId(), $questionAnswerIds)) {
+                    $correctAnswersExists = true;
                 } else if (!$questionAnswer->getIsCorrect() && in_array($questionAnswer->getId(), $questionAnswerIds)) {
                     $incorrectQuestions[] = $question;
                     continue(2);
                 }
             }
-            $correctQuestions[] = $question;
+            if ($correctAnswersExists) {
+                $viewData['correctQuestions'][] = $question;
+            } else {
+                $viewData['incorrectQuestions'][] = $question;
+            }
         }
 
         return new ResultViewDTO(
