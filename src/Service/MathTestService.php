@@ -85,9 +85,9 @@ class MathTestService
                 }
             }
             if ($correctAnswersExists) {
-                $viewData['correctQuestions'][] = $question;
+                $correctQuestions[] = $question;
             } else {
-                $viewData['incorrectQuestions'][] = $question;
+                $incorrectQuestions[] = $question;
             }
         }
 
