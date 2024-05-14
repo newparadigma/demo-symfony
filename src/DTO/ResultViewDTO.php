@@ -2,9 +2,7 @@
 
 namespace App\DTO;
 
-use App\Contract\ResultViewDTOContract;
-
-class ResultViewDTO implements ResultViewDTOContract
+class ResultViewDTO
 {
     private int $totalQuestionsCount;
     private int $correctQuestionsCount;
