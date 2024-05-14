@@ -28,7 +28,9 @@ services:
       POSTGRES_PASSWORD: example
       POSTGRES_USER: example
   adminer:
-    image: dockette/adminer:postgres
+    image: newparadigma/adminer-one-click-login:postgre
     container_name: demo-symfony-adminer
+    volumes:
+      - ./docker/adminer-servers.php/:/var/www/html/adminer-servers.php
     ports:
       - "8080:80"
